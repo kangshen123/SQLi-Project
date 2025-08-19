@@ -1,0 +1,18 @@
+ SQL base: "SELECT * FROM products WHERE category = 'Gifts' AND released = 1"
+ GOAL: Display all the item release or unrelease
+ Vulnerability in: category = 'Gifts'
+
+ Step 1: MAP the page
+ - There are 12 items exits, choose GIFTS to be the target for sql injection,
+ there are 3 items on Gifts list
+
+ Step 2: fuzzing around
+ - I start with put the ' in category = ''' -> return result Internal Server Error
+ -> Vulnerable to sqli
+ - Next I try to use base sql to create a payload:
+    SELECT * FROM products WHERE category = ''or 1=1--' AND released = 1 --> result is
+sucessful extract all the data both release and unrelease.
+--> It work cause we the part ' or 1=1' always create True result then we use '--' to
+comment the rest of command
+
+Answer: SELECT * FROM products WHERE category = ''or 1=1--' AND released = 1
